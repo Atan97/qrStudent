@@ -1,0 +1,20 @@
+﻿<Page x:Class="qrStudent.Pages.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:qrStudent.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="MainPage">
+
+    <Grid>
+        <Label Content="QR Student " Margin="218,78,218,646" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="24" FontWeight="Bold" />
+        <Label Content="Main Menu" Margin="232,143,232,581" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="20" />
+        <Button x:Name="UpdateStudentPage" Content="UpdateStudentPage" Margin="182,263,433,471" Height="50"  Width="180" MinWidth="180" MinHeight="50" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Click="UpdateStudentPage_Click"/>
+        <Button x:Name="GenerateQrPage" Content="GenerateQrPage" Margin="182,362,433,372" Height="50"   Width="180" MinWidth="180" MinHeight="50" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="GenerateQrPage_Click" />
+
+        <Button x:Name="ScanStudentPage" Content="ScanStudentPage" Margin="448,263,167,471" Height="50" Width="180" MinWidth="180" MinHeight="50" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+        <Button x:Name="GenerateExcelPage" Content="GenerateExcelPage" Margin="448,362,167,372" Height="50"  Width="180" MinWidth="180" MinHeight="50" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+    </Grid>
+</Page>

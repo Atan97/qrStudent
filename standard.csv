@@ -1,0 +1,72 @@
+Id,Tingkatan,Tema,Bidang,Index,Desc
+1,2,1,1,1,1.1 Kepelbagaian Organisma
+2,2,1,1,2,1.2 Pengelasan Organisma
+3,2,1,2,1,2.1 Aliran tenaga dalam ekosistem
+4,2,1,2,2,2.2 Kitar nutrient dalam ekosistem
+5,2,1,2,3,2.3 Saling bersandaran dan interaksi antara organisma dan antara organisma dengan persekitaran
+6,2,1,2,4,2.4  Peranan manusia dalam usaha mengekalkan keseimbangan alam
+7,2,1,3,1,3.1 Kelas makanan
+8,2,1,3,2,3.2  Kepentingan gizi seimbang
+9,2,1,3,3,3.3 Sistem pencernaan manusia
+10,2,1,3,4,3.4 Proses penyerapan dan pengangkutan hasil pencernaan dan penyahtinjaan 
+11,2,1,4,1,4.1 Penyakit berjangkit dan penyakit tidak berjangkit
+12,2,1,4,2,4.2 Pertahanan badan
+13,2,2,5,1,"5.1 Sifat fizik air
+"
+14,2,2,5,2,5.2 Larutan dan Kadar keterlarutan
+15,2,2,5,3,5.3 Pembersihan dan pembekalan air
+16,2,2,6,1,6.1 Sifat asid dan alkali
+17,2,2,6,2,6.2 Peneutralan
+18,2,3,7,1,7.1 Kelektrikan
+19,2,3,7,2,7.2 Pengaliran arus elektrikan dalam litar bersiri dan litar selari
+20,2,3,7,3,7.3 Kemagnetan
+21,2,3,8,1,8.1 Daya
+22,2,3,8,2,8.2 Kesan daya
+23,2,3,9,1,9.1 Hubungkait suhu dengan haba
+24,2,3,9,2,9.2 Pengaliran haba dan keseimbangan terma
+25,2,3,9,3,9.3 Prinsip pengembangan dan pengecutan jirim
+26,2,3,9,4,9.4 Hubungkait jenis permukaan objek dengan penyerapan dan pembebasan haba
+27,2,3,10,1,10.1 Ciri-ciri gelombang bunyi
+28,2,3,10,2,10.2 Kenyaringan dan kelangsingan bunyi
+29,2,3,10,3,10.3 Fenomena dan aplikasi pantulan gelombang bunyi
+30,2,4,11,1,11.1 Bintang dan galaksi dalam alam semesta
+31,2,4,12,1,12.1 Sistem suria
+32,2,4,13,1,"13.1 Jasad lain dalam sistem suria, iaitu Meteoroid, asteroid dan komet"
+33,1,1,1,1,1.1 SAINS ADALAH SEBAHAGIAN DARIPADA KEHIDUPAN HARIAN
+34,1,1,1,2,1.2 MAKMAL SAINS ANDA
+35,1,1,1,3,1.3 KUANTITI FIZIK DAN UNITNYA
+36,1,1,1,4,"1.4 PENGGUNAAN ALAT PENGUKUR, KEJITUAN, KEPERSISAN, KEPEKAAN DAN RALAT"
+37,1,1,1,5,1.5 KETUMPATAN
+38,1,1,1,6,1.6 LANGKAH DALAM PENYIASATAN SAINTIFIK
+39,1,1,1,7,1.7 SIKAP SAINTIFIK DAN NILAI MURNI DALAM MENJALANKAN PENYIASATAN SAINTIFIK
+40,1,2,2,1,"2.1 SEL - STRUKTUR, FUNGSI DAN ORGANISASI"
+41,1,2,2,2,2.2 RESPIRASI SEL DAN FOTOSINTESIS
+42,1,2,3,1,3.1 HOMEOSTASIS DALAM BENDA HIDUP
+43,1,2,4,1,4.1 PEMBIAKAN SEKS DAN ASEKS
+44,1,2,4,2,4.2 SISTEM PEMBIAKAN MANUSIA
+45,1,2,4,3,4.3 KITAR HAID
+46,1,2,4,4,4.4 PERSENYAWAAN DAN KEHAMILAN
+47,1,2,4,5,4.5 FAKTOR YANG MEMPENGARUHI PERKEMBANGAN FETUS DAN BAYI
+48,1,2,4,6,4.6 KEMANDULAN DAN PENCEGAHAN KEHAMILAN
+49,1,2,4,7,4.7 PEMBIAKAN TUMBUHAN
+50,1,3,5,1,5.1 JIRIM DALAM ALAM
+51,1,3,5,2,5.2 TIGA KEADAAN JIRIM
+52,1,3,6,1,6.1 PENGELASAN UNSUR
+53,1,3,6,2,6.2 CAMPURAN
+54,1,3,6,3,6.3 SEBATIAN
+55,1,3,7,1,7.1 KOMPOSISI UDARA
+56,1,3,7,2,7.2 PEMBAKARAN
+57,1,3,7,3,7.3 PENCEMARAN UDARA
+58,1,4,8,1,8.1 PENGGUNAAN CERMIN
+59,1,4,8,2,8.2 CIRI CAHAYA
+60,1,4,8,3,8.3 PANTULAN CAHAYA
+61,1,4,8,4,8.4 PEMBIASAN CAHAYA
+62,1,4,8,5,8.5 PENYEBARAN CAHAYA
+63,1,4,8,6,8.6 PENYERAKAN CAHAYA
+64,1,4,8,7,8.7 PENAMBAHAN DAN PEROLAKAN CAHAYA
+65,1,5,9,1,9.1 SISTEM DAN STRUKTUR BUMI
+66,1,5,9,2,9.2 BAHAN BUMI
+67,1,5,9,3,9.3 PROSES UTAMA BUMI
+68,1,5,9,4,9.4 FENOMENA GEOBENCANA
+69,1,5,9,5,9.5 USIA BUMI
+70,1,5,9,6,9.6 SUMBER BUMI DAN GEOLOGI GUNAAN
