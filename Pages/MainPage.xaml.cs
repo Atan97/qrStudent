@@ -43,5 +43,13 @@ namespace qrStudent.Pages
             wnd.BackToMenu.Visibility = Visibility.Visible;
             this.NavigationService.Navigate(new Uri("Pages/GenerateQr/GenerateQrPage.xaml", UriKind.Relative));
         }
+
+        private void ScanStudentPage_Click(object sender, RoutedEventArgs e)
+        {
+
+            MainWindow wnd = (MainWindow)Application.Current.MainWindow;
+            wnd.BackToMenu.Visibility = Visibility.Visible;
+            this.NavigationService.Navigate(new Uri("Pages/ScanStudent/ScanStudentSelect.xaml", UriKind.Relative));
+        }
     }
 }
