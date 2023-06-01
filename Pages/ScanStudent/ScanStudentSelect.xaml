@@ -18,15 +18,17 @@
             <ComboBox x:Name="selectTingkatan" VerticalAlignment="Top" Width="178"  Margin="89,5,0,0" HorizontalAlignment="Left" SelectionChanged="selectTingkatan_SelectionChanged" />
             <Label Content="Matapelajaran:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="83" Height="32" Margin="0,44,0,0"/>
             <ComboBox x:Name="selectMatapelajaran" VerticalAlignment="Top" Width="178"   Margin="89,49,0,0" HorizontalAlignment="Left" SelectionChanged="selectMatapelajaran_SelectionChanged"  />
-            <Button Content="Cari" x:Name="CariKelas" HorizontalAlignment="Left" Margin="216,145,0,0" VerticalAlignment="Top" Height="22" Width="96" Click="CariKelas_Click"/>
+            <Button Content="Cari" x:Name="CariKelas" HorizontalAlignment="Left" Margin="42,137,0,0" VerticalAlignment="Top" Height="22" Width="96" Click="CariKelas_Click" Grid.Column="1"/>
             <Label Content="Kelas:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="83" Height="32" Margin="275,0,0,0" Grid.ColumnSpan="2"/>
             <ComboBox x:Name="selectKelas" VerticalAlignment="Top" Width="178"  Margin="42,5,0,0" HorizontalAlignment="Left" Grid.Column="1" SelectionChanged="selectKelas_SelectionChanged" />
             <Label Content="Tema:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="83" Height="32" Margin="275,44,0,0" Grid.ColumnSpan="2"/>
             <ComboBox x:Name="selectTema" VerticalAlignment="Top" Width="178"  Margin="42,49,0,0" HorizontalAlignment="Left" Grid.Column="1" SelectionChanged="selectTema_SelectionChanged" />
             <Label Content="Bidang:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="83" Height="32" Margin="0,88,0,0"/>
             <ComboBox x:Name="selectBidang" VerticalAlignment="Top" Width="178"  Margin="89,93,0,0" HorizontalAlignment="Left" SelectionChanged="selectBidang_SelectionChanged"  />
-            <Label Content="Standard&#xA;Pembelajaran:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="83" Height="42" Margin="275,72,0,0" Grid.ColumnSpan="2"/>
+            <Label Content="Kandungan:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="83" Height="32" Margin="275,88,0,0" Grid.ColumnSpan="2"/>
             <ComboBox x:Name="selectStandard" VerticalAlignment="Top" Width="178"  Margin="42,93,0,0" HorizontalAlignment="Left" Grid.Column="1" SelectionChanged="selectStandard_SelectionChanged" />
+            <Label Content="Standard&#xD;&#xA;Pembelajaran:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="83" Height="45" Margin="0,120,0,0"/>
+            <ComboBox x:Name="selectSpembelajaran" VerticalAlignment="Top" Width="178"  Margin="89,137,0,0" HorizontalAlignment="Left"/>
 
         </Grid>
 

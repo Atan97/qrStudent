@@ -35,10 +35,11 @@ namespace qrStudent.Pages.ScanStudent
             {
 
 
-                var sql = "SELECT Nama,Tingkatan,Kelas FROM SenaraiPelajar where Tingkatan=@tingkatan and Kelas=@kelas COLLATE NOCASE";
-                StudentListGrid.ItemsSource= conn.Query<ScanStudentModel>(sql, new { tingkatan = data.Tingkatan, kelas =data.Kelas }).ToList();
-                StudentListGrid.AutoGenerateColumns = false;
+                var sql = "SELECT Id, Nama,Tingkatan,Kelas FROM SenaraiPelajar where Tingkatan=@tingkatan and Kelas=@kelas COLLATE NOCASE";
+                StudentListGrid.ItemsSource = conn.Query<ScanStudentModel>(sql, new { tingkatan = data.Tingkatan, kelas = data.Kelas }).ToList();
+                StudentListGrid.CanUserAddRows = false;
             }
+               
         }
 
         private void BackToSelectBtn_Click(object sender, RoutedEventArgs e)

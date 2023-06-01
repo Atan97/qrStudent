@@ -35,6 +35,7 @@ namespace qrStudent.Pages.ScanStudent
             selectStandard.IsEnabled = false;
             selectTema.IsEnabled = false;
             selectBidang.IsEnabled = false;
+            selectSpembelajaran.IsEnabled = false;
 
         }
 
@@ -52,7 +53,8 @@ namespace qrStudent.Pages.ScanStudent
 
         private void selectTema_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (selectMatapelajaran.SelectedIndex!=0)
+            getSp();
+            if (selectMatapelajaran.SelectedIndex != 0)
             {
 
 
@@ -75,6 +77,7 @@ namespace qrStudent.Pages.ScanStudent
 
         private void selectBidang_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            getSp();
             if (selectTema.SelectedIndex != 0)
             {
                 selectStandard.Items.Clear();
@@ -93,8 +96,11 @@ namespace qrStudent.Pages.ScanStudent
 
         private void selectStandard_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (selectStandard.SelectedIndex>0)
+            getSp();
+            if (selectStandard.SelectedIndex > 0)
             {
+
+
                 CariKelas.IsEnabled = true;
             }
             else
@@ -103,28 +109,45 @@ namespace qrStudent.Pages.ScanStudent
             }
         }
 
+
+
         private void CariKelas_Click(object sender, RoutedEventArgs e)
         {
-
-            using (var conn = new SQLiteConnection(@"Data Source= qrStudentDB.db;Version=3;"))
+            try
             {
 
-                
-                var sql = "SELECT count(Kelas) FROM SenaraiPelajar where Tingkatan=@tingkatan and Kelas=@kelas COLLATE NOCASE";
-                var dat = conn.QuerySingleOrDefault<int>(sql,new { tingkatan = selectTingkatan.SelectedItem.ToString()!.Split(" ")[1] , kelas = selectKelas.SelectedItem.ToString()! });
 
-                if (dat>0)
+                using (var conn = new SQLiteConnection(@"Data Source= qrStudentDB.db;Version=3;"))
                 {
-                    ScanStudentListPage ad=new ScanStudentListPage(new ScanStudentModel { Tingkatan = selectTingkatan.SelectedItem.ToString()!.Split(" ")[1], Kelas = selectKelas.SelectedItem.ToString()! });
-                    this.NavigationService.Navigate(ad);
+
+
+                    var sql = "SELECT count(Kelas) FROM SenaraiPelajar where Tingkatan=@tingkatan and Kelas=@kelas COLLATE NOCASE";
+                    var dat = conn.QuerySingleOrDefault<int>(sql, new { tingkatan = selectTingkatan.SelectedItem.ToString()!.Split(" ")[1], kelas = selectKelas.SelectedItem.ToString()! });
+                    var getSp = selectSpembelajaran.SelectedIndex > 0 ? "_" + selectSpembelajaran.SelectedItem.ToString() : "";
+                    var columnName = selectMatapelajaran.SelectedItem.ToString() + "_" + selectTingkatan.SelectedItem.ToString()!.Split(" ")[1] + "_" + selectTema.SelectedItem.ToString()!.Split(")")[0] + "_" + selectBidang.SelectedItem.ToString()!.Split(")")[0] + "_" + selectStandard.SelectedItem.ToString()!.Split(")")[0] + getSp;
+                    if (dat > 0)
+                    {
+                        var chkExistColumn = conn.QuerySingleOrDefault<int>("SELECT count(name) from PRAGMA_table_info('PelajarToKandungan') WHERE name=@name", new { name = columnName });
+                        if (chkExistColumn == 0)
+                        {
+                            conn.Execute("ALTER TABLE PelajarToKandungan ADD " + columnName + " INT;");
+                        }
+                        ScanStudentListPage ad = new ScanStudentListPage(new ScanStudentModel { Tingkatan = selectTingkatan.SelectedItem.ToString()!.Split(" ")[1], Kelas = selectKelas.SelectedItem.ToString()! });
+                        this.NavigationService.Navigate(ad);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Tiada maklumat pelajar bagi " + selectTingkatan.SelectedItem.ToString() + " Kelas " + selectKelas.SelectedItem.ToString() + "!", "Empty File.", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    }
+
+
+
                 }
-                else
-                {
-                    MessageBox.Show("Tiada maklumat pelajar bagi "+ selectTingkatan.SelectedItem.ToString() + " Kelas "+ selectKelas.SelectedItem.ToString() + "!", "Empty File.", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                }
+            }
+            catch (Exception)
+            {
 
-
-
+                throw;
             }
         }
 
@@ -149,6 +172,40 @@ namespace qrStudent.Pages.ScanStudent
 
 
             }
+        }
+        private void getSp()
+        {
+            selectSpembelajaran.IsEnabled = false;
+            selectSpembelajaran.Items.Clear();
+            if (selectStandard.SelectedIndex > 0)
+            {
+
+
+                using (var conn = new SQLiteConnection(@"Data Source= qrStudentDB.db;Version=3;"))
+                {
+                    var cntD = conn.QuerySingleOrDefault<int>("select count(standardPembelajaran) from KandunganData where Matapelajaran=@mp and Tingkatan=@tn and Tema=@tema and Bidang=@bdg and Kandungan=@kdg", new { mp = selectMatapelajaran.SelectedItem.ToString(), tn = selectTingkatan.SelectedItem.ToString()!.Split(" ")[1], tema = selectTema.SelectedItem.ToString()!.Split(")")[0], bdg = selectBidang.SelectedItem.ToString()!.Split(")")[0], kdg = selectStandard.SelectedItem.ToString()!.Split(")")[0] });
+
+                   
+                    if (cntD > 0)
+                    {
+                        var dat = conn.Query<int>("select standardPembelajaran from KandunganData where Matapelajaran=@mp and Tingkatan=@tn and Tema=@tema and Bidang=@bdg and Kandungan=@kdg", new { mp = selectMatapelajaran.SelectedItem.ToString(), tn = selectTingkatan.SelectedItem.ToString()!.Split(" ")[1], tema = selectTema.SelectedItem.ToString()!.Split(")")[0], bdg = selectBidang.SelectedItem.ToString()!.Split(")")[0], kdg = selectStandard.SelectedItem.ToString()!.Split(")")[0] }).ToList();
+
+                        selectSpembelajaran.IsEnabled = true;
+                        for (int i = 0; i < dat.Count; i++)
+                        {
+                            selectSpembelajaran.Items.Add(dat[i]);
+                        }
+                        selectSpembelajaran.SelectedIndex = 0;
+
+
+                    }
+                    else
+                    {
+                        selectSpembelajaran.IsEnabled = false;
+                    }
+                }
+            }
+
         }
         private void InitializeMatapelajaran()
         {
@@ -270,6 +327,7 @@ namespace qrStudent.Pages.ScanStudent
 
         private void checkMainSelected()
         {
+            getSp();
             selectStandard.Items.Clear();
             selectTema.Items.Clear();
             selectBidang.Items.Clear();
@@ -287,6 +345,7 @@ namespace qrStudent.Pages.ScanStudent
             }
         }
 
-       
+
+
     }
 }

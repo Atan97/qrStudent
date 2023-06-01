@@ -8,6 +8,7 @@ namespace qrStudent.Pages.ScanStudent
 {
     public class ScanStudentModel
     {
+        public int Id { get; set; }
         public string Nama { get; set; } = "";
         public string Tingkatan { get; set; } = "";
         public string Kelas { get; set; } = "";
