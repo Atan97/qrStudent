@@ -8,7 +8,7 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="ScanStudentSelect">
 
-    <Grid>
+    <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
         <Grid Width="542" Margin="129,133,129,133">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="161*"/>

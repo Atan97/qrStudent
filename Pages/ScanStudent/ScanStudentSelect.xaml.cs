@@ -27,8 +27,9 @@ namespace qrStudent.Pages.ScanStudent
         {
             InitializeComponent();
             InitializeTingkatan();
-            InitializeMatapelajaran();
             InitializeKelas();
+            InitializeMatapelajaran();
+           
 
             CariKelas.IsEnabled = false;
 
@@ -123,7 +124,7 @@ namespace qrStudent.Pages.ScanStudent
 
                     var sql = "SELECT count(Kelas) FROM SenaraiPelajar where Tingkatan=@tingkatan and Kelas=@kelas COLLATE NOCASE";
                     var dat = conn.QuerySingleOrDefault<int>(sql, new { tingkatan = selectTingkatan.SelectedItem.ToString()!.Split(" ")[1], kelas = selectKelas.SelectedItem.ToString()! });
-                    var getSp = selectSpembelajaran.SelectedIndex > 0 ? "_" + selectSpembelajaran.SelectedItem.ToString() : "";
+                    var getSp = selectSpembelajaran.SelectedIndex > -1 ? "_" + selectSpembelajaran.SelectedItem.ToString() : "";
                     var columnName = selectMatapelajaran.SelectedItem.ToString() + "_" + selectTingkatan.SelectedItem.ToString()!.Split(" ")[1] + "_" + selectTema.SelectedItem.ToString()!.Split(")")[0] + "_" + selectBidang.SelectedItem.ToString()!.Split(")")[0] + "_" + selectStandard.SelectedItem.ToString()!.Split(")")[0] + getSp;
                     if (dat > 0)
                     {
@@ -132,7 +133,7 @@ namespace qrStudent.Pages.ScanStudent
                         {
                             conn.Execute("ALTER TABLE PelajarToKandungan ADD " + columnName + " INT;");
                         }
-                        ScanStudentListPage ad = new ScanStudentListPage(new ScanStudentModel { Tingkatan = selectTingkatan.SelectedItem.ToString()!.Split(" ")[1], Kelas = selectKelas.SelectedItem.ToString()! });
+                        ScanStudentListPage ad = new ScanStudentListPage(new ScanStudentModel { Kelas= selectKelas.SelectedItem.ToString()!,kodKelas = columnName });
                         this.NavigationService.Navigate(ad);
                     }
                     else

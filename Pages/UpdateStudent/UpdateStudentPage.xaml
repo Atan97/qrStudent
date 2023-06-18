@@ -4,12 +4,78 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:qrStudent.Pages.UpdateStudent"
-      mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="UpdateStudentPage">
+      mc:Ignorable="d" d:DesignWidth="800"
+      Title="UpdateStudentPage" Height="552">
 
-    <Grid>
-        <Button x:Name="UploadStudent" Content="Upload Pelajar" Margin="103,37,581,380" Height="33" Width="116" Click="UploadStudent_Click"/>
+    <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
+
+        <Grid Margin="10,40,425,264">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <Border BorderBrush="Black" BorderThickness="2" Margin="0,0,-5,0" Width="364" Height="228"/>
+            <Label Content="Tingkatan:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="83" Height="32" Margin="0,40,0,0"/>
+            <ComboBox x:Name="selectTingkatan" VerticalAlignment="Top" Width="178"  Margin="88,45,0,0" HorizontalAlignment="Left" SelectionChanged="selectTingkatan_SelectionChanged" Height="22" />
+            <Label Content="Kelas:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="83" Height="32" Margin="0,86,0,0"/>
+            <ComboBox x:Name="selectKelas" VerticalAlignment="Top" Width="178"  Margin="88,91,0,0" HorizontalAlignment="Left" SelectionChanged="selectKelas_SelectionChanged" Height="22" />
+            <Button x:Name="UploadStudent" Content="Upload Pelajar" Margin="198,194,0,0" Click="UploadStudent_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Height="22" Width="103"/>
+            <Button x:Name="TemplateStudent" Content="Excel Template Pelajar" Margin="42,194,0,0" Click="TemplateStudent_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Height="22" Width="128"/>
+            <Label Content="Tambah Pelajar" HorizontalAlignment="Center" VerticalAlignment="Top" Width="359" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Height="26"/>
+        </Grid>
+        <Grid x:Name="kKelas" Margin="10,305,425,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Border BorderBrush="Black" BorderThickness="2"/>
+            <Label Content="Kemaskini Kelas" HorizontalAlignment="Center" VerticalAlignment="Top" Width="364" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Height="26"/>
+            <Label Content="Kelas:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="83" Height="32" Margin="7,146,0,0"/>
+            <ComboBox x:Name="selectKelas1" VerticalAlignment="Top" Width="178"  Margin="88,151,0,0" HorizontalAlignment="Left" SelectionChanged="selectKelas_SelectionChanged" Height="22" />
+            <Label Content="*Amaran! Sekiranya kelas dibuang, &#xD;&#xA;senarai pelajar dan data pelajar akan dibuang!" HorizontalAlignment="Left" Margin="10,178,0,0" VerticalAlignment="Top" Width="354" FontWeight="Bold" Height="49" Foreground="Red" FontSize="10"/>
+            <Label Content="Kelas:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="83" Height="32" Margin="0,73,0,0"/>
+            <Label Content="Tambah Kelas Baru" HorizontalAlignment="Left" Margin="0,42,0,0" VerticalAlignment="Top" Width="145" VerticalContentAlignment="Center" FontWeight="Bold" Height="26"/>
+            <Label Content="Buang Kelas" HorizontalAlignment="Left" Margin="0,117,0,0" VerticalAlignment="Top" Width="122" VerticalContentAlignment="Center" FontWeight="Bold" Height="26"/>
+            <TextBox x:Name="KelasBaru" HorizontalAlignment="Left" Margin="88,80,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="178" Height="22"/>
+            <Button x:Name="AddClass" Content="Tambah kelas" Margin="271,80,0,0" Click="AddClass_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Height="22" Width="82"/>
+            <Button x:Name="RemoveClass" Content="Buang kelas" Margin="271,151,0,0"  HorizontalAlignment="Left" VerticalAlignment="Top" Height="22" Width="82" Click="RemoveClass_Click"/>
+        </Grid>
+        <Grid x:Name="kSubjek" Margin="400,41,11,264">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Border BorderBrush="Black" BorderThickness="2" Margin="0,0,-6,0"/>
+            <Label Content="Kemaskini Subjek" HorizontalAlignment="Center" VerticalAlignment="Top" Width="364" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Height="26"/>
+            <Label Content="Subjek:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="83" Height="32" Margin="-1,146,0,0"/>
+            <ComboBox x:Name="selectMatapelajaran" VerticalAlignment="Top" Width="178"  Margin="80,151,0,0" HorizontalAlignment="Left" SelectionChanged="selectKelas_SelectionChanged" Height="22" />
+            <Label Content="*Amaran! Sekiranya subjek dibuang, &#xA;data pelajar bagi subjek berkenaan juga akan dibuang!" HorizontalAlignment="Left" Margin="10,178,0,0" VerticalAlignment="Top" Width="354" FontWeight="Bold" Height="49" Foreground="Red" FontSize="10"/>
+            <Label Content="Subjek:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="83" Height="32" Margin="0,73,0,0"/>
+            <Label Content="Tambah Subjek Baru" HorizontalAlignment="Left" Margin="0,42,0,0" VerticalAlignment="Top" Width="145" VerticalContentAlignment="Center" FontWeight="Bold" Height="26"/>
+            <Label Content="Buang Subjek" HorizontalAlignment="Left" Margin="0,117,0,0" VerticalAlignment="Top" Width="122" VerticalContentAlignment="Center" FontWeight="Bold" Height="26"/>
+            <TextBox x:Name="SubjekBaru" HorizontalAlignment="Left" Margin="88,80,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="178" Height="22"/>
+            <Button x:Name="AddSubjek" Content="Tambah Subjek" Margin="271,80,0,0" Click="AddSubjek_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Height="22" Width="93"/>
+            <Button x:Name="RemoveSubjek" Content="Buang Subjek" Margin="263,151,0,0"  HorizontalAlignment="Left" VerticalAlignment="Top" Height="22" Width="93" Click="RemoveSubjek_Click"/>
+        </Grid>
+        <CheckBox Content="Advanced Ubah Suai" HorizontalAlignment="Left" Margin="400,21,0,0" VerticalAlignment="Top" Width="173" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked"/>
+        <Grid x:Name="kSubjekData" Margin="400,305,11,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Border BorderBrush="Black" BorderThickness="2" Margin="0,0,-6,0">
+                <Label Content="*Amaran! Sekiranya subjek data baru di upload, &#xA;data lama subjek berkenaan akan dibuang!" HorizontalAlignment="Left" VerticalAlignment="Top" Width="354" FontWeight="Bold" Height="39" Foreground="Red" FontSize="10" Margin="8,176,0,0"/>
+            </Border>
+            <Label Content="Upload Data Subjek" HorizontalAlignment="Center" VerticalAlignment="Top" Width="364" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Height="26"/>
+            <Label Content="Subjek:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="83" Height="32" Margin="1,86,0,0"/>
+            <ComboBox x:Name="selectMatapelajaran1" VerticalAlignment="Top" Width="178"  Margin="87,92,0,0" HorizontalAlignment="Left"  Height="22" RenderTransformOrigin="0.508,1.576" />
+            <Label Content="Tingkatan:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="83" Height="32" Margin="-1,41,0,0"/>
+            <ComboBox x:Name="selectTingkatan1" VerticalAlignment="Top" Width="178"  Margin="87,46,0,0" HorizontalAlignment="Left"  Height="22" />
+            <Button x:Name="UploadDataSubjek"  Margin="194,131,0,0"  HorizontalAlignment="Left" VerticalAlignment="Top" Height="40" Width="88" Click="UploadDataSubjek_Click" HorizontalContentAlignment="Center">
+                <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" TextAlignment="Center"><Run Text="Upload Subjek"/><LineBreak/><Run Text="Data"/></TextBlock>
+            </Button>
+            <Button x:Name="TemplateDataSubjek"  Margin="87,131,0,0"  HorizontalAlignment="Left" VerticalAlignment="Top" Height="40" Width="88" Click="TemplateDataSubjek_Click">
+                <TextBlock TextAlignment="Center"><Run Text="Excel Template"/><LineBreak/><Run Text="Subjek Data"/></TextBlock>
+            </Button>
+        </Grid>
 
     </Grid>
 </Page>

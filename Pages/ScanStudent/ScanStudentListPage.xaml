@@ -10,7 +10,25 @@
 
     <Grid>
         <Button x:Name="BackToSelectBtn" Content="Back To Select Class" HorizontalAlignment="Left" VerticalAlignment="Top" Height="34" Width="141" Click="BackToSelectBtn_Click"/>
-        <DataGrid x:Name="StudentListGrid"  Margin="0,39,0,0"/>
+        <DataGrid x:Name="StudentListGrid"  Margin="0,66,0,0">
+            <DataGrid.Columns>
+                <DataGridTextColumn IsReadOnly="True" Binding="{Binding No}" Header="No. "></DataGridTextColumn>
+                <DataGridTextColumn IsReadOnly="True" Binding="{Binding Nama}" Header="Nama"></DataGridTextColumn>
+                <DataGridCheckBoxColumn Binding="{Binding Siap}" Header="Siap">
+
+                    <DataGridCheckBoxColumn.CellStyle>
+                        <Style>
+                            <EventSetter Event="CheckBox.Checked" Handler="OnChecked"/>
+                            <EventSetter Event="CheckBox.Unchecked" Handler="OnChecked"/>
+                        </Style>
+                    </DataGridCheckBoxColumn.CellStyle>
+                </DataGridCheckBoxColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Label x:Name="kelas" Content="kelas" HorizontalAlignment="Center" Margin="0,22,0,0" VerticalAlignment="Top" Width="210" Height="44" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" FontSize="18"/>
+        <TextBox x:Name="scanText" HorizontalAlignment="Left" Height="17" Margin="711,44,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="79" KeyDown="OnKeyDownHandler">
+            
+        </TextBox>
 
     </Grid>
 </Page>

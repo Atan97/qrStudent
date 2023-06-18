@@ -9,10 +9,30 @@ namespace qrStudent.Models
 {
     public class StudentModel
     {
-        public string Nama { get; set; }
-        public string NoPendaftaran { get; set; }
-        public string Tingkatan { get; set; }
-        public string Kelas { get; set; }
+        public string Nama { get; set; } = "";
+        public string NoPendaftaran { get; set; } = "";
+        public string Tingkatan { get; set; } = "";
+        public string Kelas { get; set; } = "";
+    }
+    public class TemaModel
+    {
+        public int Index { get; set; }
+        public string Desc { get; set; } = "";
+        public List<BidangModel> bidangModels { get; set; } = new List<BidangModel>();
+    }
+    public class BidangModel
+    {
+        public int Index { get; set; }
+        public string Desc { get; set; } = "";
+        public List<KandunganModel> kandunganModels { get; set; } = new List<KandunganModel>();
+
+    }
+    public class KandunganModel
+    {
+        public int Index { get; set; }
+        public string Desc { get; set; } = "";
+        public List<int> Standard { get; set; }= new List<int>();
+
     }
    
 
