@@ -469,15 +469,15 @@ namespace qrStudent.Pages.UpdateStudent
                         }
                         using (var conn = new SQLiteConnection(@"Data Source= qrStudentDB.db;Version=3;"))
                         {
-                            var oldList = conn.Query<long>("select Id FROM SenaraiPelajar where  Tingkatan=@tingkatan and Kelas=@kelas COLLATE NOCASE", new { tingkatan = selectTingkatan.SelectedItem.ToString()!.Split(" ")[1], kelas = selectKelas.SelectedItem.ToString()! }).ToList();
-                            if (oldList.Count > 0)
-                            {
-                                conn.Execute("delete from SenaraiPelajar where  Tingkatan=@tingkatan and Kelas=@kelas COLLATE NOCASE", new { tingkatan = selectTingkatan.SelectedItem.ToString()!.Split(" ")[1], kelas = selectKelas.SelectedItem.ToString()! });
-                                for (int i = 0; i < oldList.Count; i++)
-                                {
-                                    conn.Execute("delete from PelajarToKandungan where IdPelajar=@IdPelajar", new { IdPelajar = oldList[i] });
-                                }
-                            }
+                            //var oldList = conn.Query<long>("select Id FROM SenaraiPelajar where  Tingkatan=@tingkatan and Kelas=@kelas COLLATE NOCASE", new { tingkatan = selectTingkatan.SelectedItem.ToString()!.Split(" ")[1], kelas = selectKelas.SelectedItem.ToString()! }).ToList();
+                            //if (oldList.Count > 0)
+                            //{
+                            //    conn.Execute("delete from SenaraiPelajar where  Tingkatan=@tingkatan and Kelas=@kelas COLLATE NOCASE", new { tingkatan = selectTingkatan.SelectedItem.ToString()!.Split(" ")[1], kelas = selectKelas.SelectedItem.ToString()! });
+                            //    for (int i = 0; i < oldList.Count; i++)
+                            //    {
+                            //        conn.Execute("delete from PelajarToKandungan where IdPelajar=@IdPelajar", new { IdPelajar = oldList[i] });
+                            //    }
+                            //}
 
                             //var sql = "";
                             //foreach (var row in students)
