@@ -66,7 +66,7 @@ namespace qrStudent.Pages.UpdateStudent
 
                             StudentModel studentModel = new()
                             {
-                                Nama = row.Cell(1).Value.ToString(),
+                                Nama = row.Cell(1).Value.ToString().ToUpper(),
                                 NoPendaftaran = row.Cell(2).Value.ToString(),
                                 Tingkatan = selectTingkatan.SelectedItem.ToString()!.Split(" ")[1],
                                 Kelas = selectKelas.SelectedItem.ToString()!
@@ -447,14 +447,14 @@ namespace qrStudent.Pages.UpdateStudent
                         foreach (var row1 in rows1)
                         {
 
-                            TemaModel Tema = new TemaModel { Index = int.Parse(row1.Cell(1).Value.ToString()), Desc = row1.Cell(2).Value.ToString() };
+                            TemaModel Tema = new TemaModel { Index = int.Parse(row1.Cell(1).Value.ToString()), Desc = row1.Cell(2).Value.ToString().ToUpper() };
                             var Worksheet2 = workbook.Worksheet(2);
                             var rows2 = Worksheet2.RangeUsed().RowsUsed().Skip(1); // Skip header row
                             foreach (var row2 in rows2)
                             {
                                 if (int.Parse(row2.Cell(1).Value.ToString()) == int.Parse(row1.Cell(1).Value.ToString()))
                                 {
-                                    var Bidang = new BidangModel { Index = int.Parse(row2.Cell(2).Value.ToString()), Desc = row2.Cell(3).Value.ToString() };
+                                    var Bidang = new BidangModel { Index = int.Parse(row2.Cell(2).Value.ToString()), Desc = row2.Cell(3).Value.ToString().ToUpper() };
 
 
                                     var Worksheet3 = workbook.Worksheet(3);
@@ -463,7 +463,7 @@ namespace qrStudent.Pages.UpdateStudent
                                     {
                                         if (int.Parse(row3.Cell(1).Value.ToString()) == int.Parse(row2.Cell(2).Value.ToString()))
                                         {
-                                            var kandungan = new KandunganModel { Index = int.Parse(row3.Cell(2).Value.ToString()), Desc = row3.Cell(3).Value.ToString() };
+                                            var kandungan = new KandunganModel { Index = int.Parse(row3.Cell(2).Value.ToString()), Desc = row3.Cell(3).Value.ToString().ToUpper() };
 
                                             var Worksheet4 = workbook.Worksheet(4);
                                             var rows4 = Worksheet4.RangeUsed().RowsUsed().Skip(1); // Skip header row
