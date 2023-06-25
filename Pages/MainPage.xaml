@@ -13,8 +13,12 @@
             </Grid.ColumnDefinitions>
             <Label Content="QR Student " HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Top" />
             <Label Content="Main Menu" Margin="0,66,0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Top" />
-            <Button x:Name="UpdateStudentPage" Content="Update Maklumat" Margin="271,271,0,0" Height="50"  Width="180"    Click="UpdateStudentPage_Click" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <Button x:Name="GenerateQrPage" Content="Generate Qr Code Pelajar" Margin="0,271,0,0" Height="50"   Width="180"  Click="GenerateQrPage_Click" HorizontalAlignment="Left" VerticalAlignment="Top" />
+            <Button x:Name="UpdateStudentPage"  Margin="271,271,0,0" Height="50"  Width="180"    Click="UpdateStudentPage_Click" HorizontalAlignment="Left" VerticalAlignment="Top">
+                <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" TextAlignment="Center" Text="Update Maklumat&#xD;&#xA;Pelajar /Kelas"/>
+            </Button>
+            <Button x:Name="GenerateQrPage"  Margin="0,271,0,0" Height="50"   Width="180"  Click="GenerateQrPage_Click" HorizontalAlignment="Left" VerticalAlignment="Top" >
+                <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" TextAlignment="Center"><Run Text="Generate"/><LineBreak/><Run Text="Qr"/><Run Language="en-my" Text=" "/><Run Text="Code Pelajar"/></TextBlock>
+            </Button>
 
             <Button x:Name="ScanStudentPage" Content="Scan Pelajar" Margin="0,180,0,0" Height="50" Width="180"   Click="ScanStudentPage_Click" HorizontalAlignment="Left" VerticalAlignment="Top"/>
             <Button x:Name="GenerateExcelPage" Content="Generate Excel" Margin="271,180,0,0" Height="50"  Width="180" MinWidth="180" MinHeight="50" HorizontalAlignment="Left" VerticalAlignment="Top" Click="GenerateExcelPage_Click"/>
