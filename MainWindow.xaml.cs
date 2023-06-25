@@ -118,10 +118,10 @@ namespace qrStudent
                 	"Id"	INTEGER NOT NULL UNIQUE,
                 	"Matapelajaran"	TEXT,
                 	"Tingkatan"	TEXT,
-                	"Tema"	TEXT,
-                	"Bidang"	TEXT,
-                	"Kandungan"	TEXT,
-                	"StandardPembelajaran"	TEXT,
+                	"Tema"	INTEGER,
+                	"Bidang"	INTEGER,
+                	"Kandungan"	INTEGER,
+                	"StandardPembelajaran"	INTEGER,
                 	"DtCreated"	datetime DEFAULT current_timestamp,
                 	PRIMARY KEY("Id" AUTOINCREMENT)
                 );

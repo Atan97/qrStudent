@@ -3,6 +3,7 @@ using Dapper;
 using DocumentFormat.OpenXml.Drawing.Charts;
 using DocumentFormat.OpenXml.Office2010.Excel;
 using qrStudent.Functions;
+using qrStudent.Pages.GenerateExcel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -130,10 +131,14 @@ namespace qrStudent.Pages.ScanStudent
             var tema = kodKelasSplit[2];
             var bidang = kodKelasSplit[3];
             var kandungan = kodKelasSplit[4];
-            var sp = "";
+            string? sp;
             if (kodKelasSplit.Length == 6)
             {
-                sp = kodKelasSplit[5];
+                sp = bidang+"."+ kandungan+"."+ kodKelasSplit[5];
+            }
+            else
+            {
+                sp = bidang + "." + kandungan + ".0";
             }
             getTajukFull(subjek, tingkatan, tema, bidang, kandungan, out string? temaFull, out string? bidangFull, out string? kandunganFull);
 
@@ -185,48 +190,67 @@ namespace qrStudent.Pages.ScanStudent
                 {
                     sp = kodKelasSplit[5];
                 }
+                else
+                {
+                    sp = "0";
+                }
                 getTajukFull(subjek, tingkatan, tema, bidang, kandungan, out string? temaFull, out string? bidangFull, out string? kandunganFull);
 
                 using var wbook = new XLWorkbook();
 
                 var sheet = wbook.Worksheets.Add("Rekod Transit");
-                
-                sheet.Cell("A1").Value = "KELAS: "+ NamaKelas;
-                sheet.Cell("B1").Value = "TINGKATAN: "+ tingkatan;
-                sheet.Cell("C1").Value = "MATAPELAJARAN: "+ subjek;
+                sheet.Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+                sheet.Cell(1, 1).Value = "REKOD TRANSIT PBD TINGKATAN " + tingkatan;
 
-                sheet.Cell("B3").Value = "TEMA";
-                sheet.Cell("C3").Value = tema + ") " + temaFull;
-                sheet.Cell("B4").Value = "BIDANG";
-                sheet.Cell("C4").Value = bidang + ") " + bidangFull;
-                sheet.Cell("B5").Value = "KANDUNGAN";
-                sheet.Cell("C5").Value = kandungan + ") " + kandunganFull;
-                if (!string.IsNullOrWhiteSpace(sp))
-                {
-                    sheet.Cell("B6").Value = "STANDARD PEMBELAJARAN";
-                    sheet.Cell("C6").Value = kandungan + "." + sp;
-                }
-                sheet.Cell("B7").Value = "Tarikh";
-                sheet.Cell("C7").Value = DateTime.Now.ToString("dd/MM/yyyy"); 
-                
-                sheet.Cell("A9").Value = "Bil";
-                sheet.Cell("B9").Value = "Nama Murid";
-               var datC= (List<DisplayStudentModel>)StudentListGrid.ItemsSource;
+                sheet.Range(sheet.Cell(1, 1), sheet.Cell(1, 3)).Merge();
+                sheet.Cell(3, 1).Value = "NO";
+                sheet.Cell(3, 1).Style.Alignment.SetVertical(XLAlignmentVerticalValues.Center);
+                sheet.Range(sheet.Cell(3, 1), sheet.Cell(7, 1)).Merge();
+                sheet.Cell(3, 2).Value = "TEMA:";
+                sheet.Cell(3, 2).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
+                sheet.Cell(4, 2).Value = "BIDANG PEMBELAJARAN:";
+                sheet.Cell(4, 2).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
+                sheet.Cell(5, 2).Value = "STANDARD KANDUNGAN:";
+                sheet.Cell(5, 2).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
+                sheet.Cell(6, 2).Value = "STANDARD PEMBELAJARAN:";
+                sheet.Cell(6, 2).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
+                sheet.Cell(7, 2).Value = "TARIKH:";
+                sheet.Cell(7, 2).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
+                sheet.Cell(8, 2).Value = "NAMA";
+                sheet.Cell(8, 2).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
+                sheet.Cell(3, 3).Value = tema + " " + temaFull;
+                sheet.Cell(3, 3).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
+
+                sheet.Cell(4, 3).Value = bidang + " " + bidangFull;
+                sheet.Cell(4, 3).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
+
+                sheet.Cell(5, 3).Value = kandungan + " " + kandunganFull;
+                sheet.Cell(5, 3).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
+                sheet.Cell(6, 3).Value = bidang + "." + kandungan + "." + sp;
+                sheet.Cell(6, 3).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
+
+
+                sheet.Cell(7, 3).Value = DateTime.Now.ToString("dd/MM/yyyy");
+                sheet.Cell(7, 3).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
+
+
+                var datC = (List<DisplayStudentModel>)StudentListGrid.ItemsSource;
                 for (int i = 0; i < datC.Count; i++)
                 {
-                    sheet.Cell("A"+(i+10)).Value = i+1;
-                    sheet.Cell("B" + (i + 10)).Value = datC[i].Nama;
+
+                    sheet.Cell(i + 9, 1).Value = i + 1;
+                    sheet.Cell(i + 9, 2).Value = datC[i].Nama;
                     if (datC[i].Siap)
                     {
-                        sheet.Cell("C" + (i + 10)).Value = "1";
+                        sheet.Cell(i + 9, 3).Value = "1";
                     }
                 }
-                sheet.Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
 
 
 
-                wbook.SaveAs(dlg.ResultPath + "/"+ NamaKelas+"_" +tingkatan + "_" + subjek+DateTime.Now.ToString("yyyyMMdd")+ ".xlsx");
-                MessageBox.Show("Template berjaya dibuat di:" + Environment.NewLine + dlg.ResultPath + "\\TemplateDataSubjek.xlsx", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                var filename = $"REKOD TRANSIT PBD {subjek} TINGKATAN {tingkatan} {NamaKelas} Standard {bidang + "." + kandungan + "." + sp}.xlsx";
+                wbook.SaveAs($"{dlg.ResultPath}/{filename}");
+                MessageBox.Show($"Template berjaya dibuat di:{Environment.NewLine}{dlg.ResultPath}\\{filename}", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
     }

@@ -8,17 +8,21 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="GenerateExcelPage">
 
-    <Grid>
-        <Grid Width="542" Margin="129,133,129,152">
+    <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
+        <Grid Width="542" Margin="129,142,129,142">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="161*"/>
                 <ColumnDefinition Width="110*"/>
             </Grid.ColumnDefinitions>
             <Label Content="Tingkatan:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="83" Height="32"/>
             <ComboBox x:Name="selectTingkatan" VerticalAlignment="Top" Width="178"  Margin="89,5,0,0" HorizontalAlignment="Left" SelectionChanged="selectTingkatan_SelectionChanged" />
-            <Label Content="Matapelajaran:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="83" Height="32" Margin="0,62,0,0"/>
+            <Label Content="Subjek:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="83" Height="32" Margin="0,62,0,0"/>
             <ComboBox x:Name="selectMatapelajaran" VerticalAlignment="Top" Width="178"   Margin="89,67,0,0" HorizontalAlignment="Left" SelectionChanged="selectMatapelajaran_SelectionChanged"  />
-            <Button Content="Cari" x:Name="CariKelas" HorizontalAlignment="Left" Margin="124,73,0,0" VerticalAlignment="Top" Height="22" Width="96" Click="CariKelas_Click" Grid.Column="1"/>
+            <Button  x:Name="GetExcel" HorizontalAlignment="Left" Margin="83,55,0,0" VerticalAlignment="Top" Height="45" Width="96" Click="GetExcel_Click" Grid.Column="1">
+
+                <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" TextAlignment="Center"><Run Text="Generate Excel"/><LineBreak/><Run Text="File"/></TextBlock>
+
+            </Button>
             <Label Content="Kelas:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="83" Height="32" Margin="275,0,0,0" Grid.ColumnSpan="2"/>
             <ComboBox x:Name="selectKelas" VerticalAlignment="Top" Width="178"  Margin="42,5,0,0" HorizontalAlignment="Left" Grid.Column="1" SelectionChanged="selectKelas_SelectionChanged" />
 
