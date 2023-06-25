@@ -10,11 +10,11 @@
 
     <Grid>
         <Button x:Name="BackToSelectBtn" Content="Back To Select Class" HorizontalAlignment="Left" VerticalAlignment="Top" Height="34" Width="141" Click="BackToSelectBtn_Click"/>
-        <DataGrid x:Name="StudentListGrid"  Margin="0,66,0,0">
+        <DataGrid Width="800" x:Name="StudentListGrid"  Margin="0,154,0,0">
             <DataGrid.Columns>
-                <DataGridTextColumn IsReadOnly="True" Binding="{Binding No}" Header="No. "></DataGridTextColumn>
-                <DataGridTextColumn IsReadOnly="True" Binding="{Binding Nama}" Header="Nama"></DataGridTextColumn>
-                <DataGridCheckBoxColumn Binding="{Binding Siap}" Header="Siap">
+                <DataGridTextColumn Width="1*" IsReadOnly="True" Binding="{Binding No}" Header="No. "></DataGridTextColumn>
+                <DataGridTextColumn Width="6*" IsReadOnly="True" Binding="{Binding Nama}" Header="Nama"></DataGridTextColumn>
+                <DataGridCheckBoxColumn Width="1*" Binding="{Binding Siap}" Header="Siap">
 
                     <DataGridCheckBoxColumn.CellStyle>
                         <Style>
@@ -25,10 +25,13 @@
                 </DataGridCheckBoxColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Label x:Name="kelas" Content="kelas" HorizontalAlignment="Center" Margin="0,22,0,0" VerticalAlignment="Top" Width="210" Height="44" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" FontSize="18"/>
-        <TextBox x:Name="scanText" HorizontalAlignment="Left" Height="17" Margin="711,44,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="79" KeyDown="OnKeyDownHandler">
-            
-        </TextBox>
+        <Grid HorizontalAlignment="Center" Height="115" Margin="0,39,0,0" VerticalAlignment="Top" Width="798">
+            <TextBox x:Name="scanText" Height="26" TextWrapping="Wrap" VerticalAlignment="Top" KeyDown="OnKeyDownHandler" Width="80" Margin="708,54,10,0"/>
+            <Label Content="Klik di sini untuk mula scan:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="158" Margin="546,54,0,0"/>
+            <Label x:Name="tajukDat" Content="dat" HorizontalAlignment="Left" VerticalAlignment="Center" Height="114" FontWeight="Bold" Width="453"/>
+            <Button x:Name="DownloadExcel" Content="Download Excel" HorizontalAlignment="Left" Margin="679,85,0,0" VerticalAlignment="Top" Width="109" Click="DownloadExcel_Click"/>
+
+        </Grid>
 
     </Grid>
 </Page>

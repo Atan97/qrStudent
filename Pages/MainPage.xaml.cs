@@ -31,6 +31,7 @@ namespace qrStudent.Pages
 
             MainWindow wnd = (MainWindow)Application.Current.MainWindow;
             wnd.BackToMenu.Visibility = Visibility.Visible;
+            wnd.zoomStack.Visibility = Visibility.Collapsed;
             this.NavigationService.Navigate(new Uri("Pages/UpdateStudent/UpdateStudentPage.xaml", UriKind.Relative));
 
            
@@ -41,6 +42,7 @@ namespace qrStudent.Pages
         {
             MainWindow wnd = (MainWindow)Application.Current.MainWindow;
             wnd.BackToMenu.Visibility = Visibility.Visible;
+            wnd.zoomStack.Visibility = Visibility.Collapsed;
             this.NavigationService.Navigate(new Uri("Pages/GenerateQr/GenerateQrPage.xaml", UriKind.Relative));
         }
 
@@ -49,7 +51,16 @@ namespace qrStudent.Pages
 
             MainWindow wnd = (MainWindow)Application.Current.MainWindow;
             wnd.BackToMenu.Visibility = Visibility.Visible;
+            wnd.zoomStack.Visibility = Visibility.Collapsed;
             this.NavigationService.Navigate(new Uri("Pages/ScanStudent/ScanStudentSelect.xaml", UriKind.Relative));
+        }
+
+        private void GenerateExcelPage_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow wnd = (MainWindow)Application.Current.MainWindow;
+            wnd.BackToMenu.Visibility = Visibility.Visible;
+            wnd.zoomStack.Visibility = Visibility.Collapsed;
+            this.NavigationService.Navigate(new Uri("Pages/GenerateExcel/GenerateExcelPage.xaml", UriKind.Relative));
         }
     }
 }

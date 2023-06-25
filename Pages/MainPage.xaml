@@ -4,17 +4,22 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:qrStudent.Pages"
-      mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      mc:Ignorable="d"  d:DesignWidth="800"
       Title="MainPage">
+    <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
+        <Grid Margin="10,0,10,0" Height="321" VerticalAlignment="Bottom">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Label Content="QR Student " HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Top" />
+            <Label Content="Main Menu" Margin="0,66,0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Top" />
+            <Button x:Name="UpdateStudentPage" Content="UpdateStudentPage" Margin="0,180,0,0" Height="50"  Width="180"    Click="UpdateStudentPage_Click" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <Button x:Name="GenerateQrPage" Content="GenerateQrPage" Margin="0,271,0,0" Height="50"   Width="180"  Click="GenerateQrPage_Click" HorizontalAlignment="Left" VerticalAlignment="Top" />
 
-    <Grid>
-        <Label Content="QR Student " Margin="218,78,218,646" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="24" FontWeight="Bold" />
-        <Label Content="Main Menu" Margin="232,143,232,581" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="20" />
-        <Button x:Name="UpdateStudentPage" Content="UpdateStudentPage" Margin="182,263,433,471" Height="50"  Width="180" MinWidth="180" MinHeight="50" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Click="UpdateStudentPage_Click"/>
-        <Button x:Name="GenerateQrPage" Content="GenerateQrPage" Margin="182,362,433,372" Height="50"   Width="180" MinWidth="180" MinHeight="50" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="GenerateQrPage_Click" />
+            <Button x:Name="ScanStudentPage" Content="ScanStudentPage" Margin="271,180,0,0" Height="50" Width="180"   Click="ScanStudentPage_Click" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <Button x:Name="GenerateExcelPage" Content="GenerateExcelPage" Margin="271,271,0,0" Height="50"  Width="180" MinWidth="180" MinHeight="50" HorizontalAlignment="Left" VerticalAlignment="Top" Click="GenerateExcelPage_Click"/>
 
-        <Button x:Name="ScanStudentPage" Content="ScanStudentPage" Margin="448,263,167,471" Height="50" Width="180" MinWidth="180" MinHeight="50" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="ScanStudentPage_Click"/>
-        <Button x:Name="GenerateExcelPage" Content="GenerateExcelPage" Margin="448,362,167,372" Height="50"  Width="180" MinWidth="180" MinHeight="50" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+        </Grid>
+
     </Grid>
 </Page>

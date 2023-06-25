@@ -7,14 +7,35 @@
         mc:Ignorable="d"
         Title="MainWindow"   Width="{x:Static SystemParameters.PrimaryScreenWidth}"  
             Height="{x:Static SystemParameters.PrimaryScreenHeight}" MinWidth="900" MinHeight="900" ResizeMode="CanResize" WindowState="Normal" SizeToContent="WidthAndHeight">
-    
+
     <Grid>
-        <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="209*"/>
+            <ColumnDefinition Width="1711*"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Grid.ColumnSpan="2" Margin="0,0,960,0">
 
             <Button x:Name="BackToMenu" Content="Back To Menu" MinWidth="100" Click="BackToMenu_Click" ></Button>
         </StackPanel>
-        <Frame x:Name="Main" Margin="0,35,0,0" NavigationUIVisibility="Hidden"></Frame>
-        
+        <Frame x:Name="Main" Margin="0,35,0,0" NavigationUIVisibility="Hidden" Grid.ColumnSpan="2"></Frame>
+        <StackPanel x:Name="zoomStack" Orientation="Horizontal" VerticalAlignment="Top" Margin="751,0,0,0" Grid.Column="1">
+            <Label Content="Zoom: " FontWeight="Bold" FontSize="10"/>
+
+            <Slider x:Name="slider1"
+                Maximum="1.7"
+                Minimum="1"
+                PreviewMouseDown="slider1_PreviewMouseDown"
+                TickFrequency="0.1"
+                TickPlacement="TopLeft"
+                ValueChanged="slider1_ValueChanged"
+                Value="{Binding LayoutTransform.ScaleX, ElementName=mainPanel, Mode=OneWay}" Width="281" >
+                <!--<Slider.LayoutTransform>
+                    <ScaleTransform ScaleX="-1"/>
+                </Slider.LayoutTransform>-->
+            </Slider>
+          
+        </StackPanel>
+
     </Grid>
-    
+
 </Window>

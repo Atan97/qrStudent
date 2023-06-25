@@ -10,6 +10,7 @@ using System.Data.SQLite;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -37,7 +38,7 @@ namespace qrStudent.Pages.UpdateStudent
             InitializeTingkatan();
             InitializeKelas();
             InitializeMatapelajaran();
-            kKelas.Visibility = Visibility.Collapsed;
+
             kSubjek.Visibility = Visibility.Collapsed;
             kSubjekData.Visibility = Visibility.Collapsed;
 
@@ -88,6 +89,7 @@ namespace qrStudent.Pages.UpdateStudent
                             var sql = "";
                             foreach (var row in students)
                             {
+                                sql = "";
                                 sql += "INSERT INTO SenaraiPelajar (Nama,NoPendaftaran,Tingkatan,Kelas) VALUES('" + row.Nama + "','" + row.NoPendaftaran + "','" + row.Tingkatan + "','" + row.Kelas + "'); SELECT last_insert_rowid()";
                                 var dat = conn.QuerySingle<string>(sql);
                                 conn.Execute("insert into PelajarToKandungan (IdPelajar) values(" + dat + ")");
@@ -218,6 +220,12 @@ namespace qrStudent.Pages.UpdateStudent
                 }
                 using (var conn = new SQLiteConnection(@"Data Source= qrStudentDB.db;Version=3;"))
                 {
+                    var checkAvailable = conn.QuerySingleOrDefault<int>("select count (id) from Parameter where Kategori='Kelas' and Value=@namaKelas", new { namaKelas= KelasBaru.Text.Trim().ToUpper() });
+                    if (checkAvailable > 0)
+                    {
+                        MessageBox.Show($"Nama kelas {KelasBaru.Text.Trim().ToUpper()} sudah ada dalam rekord!", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        return;
+                    }
 
                     conn.Execute("insert into Parameter (Kategori,Value) values('Kelas',@namaKelas)", new { namaKelas = KelasBaru.Text.Trim().ToUpper() });
                     InitializeKelas();
@@ -281,14 +289,24 @@ namespace qrStudent.Pages.UpdateStudent
                     MessageBox.Show("Nama subjek tidak boleh kosong!", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return;
                 }
+                var namaSubjek = Regex.Replace(SubjekBaru.Text.Trim().ToUpper(), @"\s+", "_");
                 using (var conn = new SQLiteConnection(@"Data Source= qrStudentDB.db;Version=3;"))
                 {
 
-                    conn.Execute("insert into Parameter (Kategori,Value) values('Matapelajaran',@namaSubjek)", new { namaSubjek = SubjekBaru.Text.Trim().ToUpper() });
+                    var checkAvailable = conn.QuerySingleOrDefault<int>("select count (id) from Parameter where Kategori='Matapelajaran' and Value=@namaSubjek", new { namaSubjek });
+                    if (checkAvailable > 0)
+                    {
+                        MessageBox.Show($"Nama subjek {namaSubjek} sudah ada dalam rekord!", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        return;
+                    }
+
+                    conn.Execute("insert into Parameter (Kategori,Value) values('Matapelajaran',@namaSubjek)", new { namaSubjek });
                     InitializeMatapelajaran();
 
+
+
                 }
-                MessageBox.Show("Subjek " + SubjekBaru.Text.Trim().ToUpper() + " berjaya ditambah!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show($"Subjek {namaSubjek} berjaya ditambah!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception)
             {
@@ -340,13 +358,13 @@ namespace qrStudent.Pages.UpdateStudent
                     {
 
                         conn.Execute("delete FROM Parameter WHERE Kategori='Matapelajaran' and Value=@namaSubjek", new { namaSubjek = buangsubjek });
-                        var oldList = conn.Query<string>("SELECT name from PRAGMA_table_info('PelajarToKandungan') WHERE name like '"+ buangsubjek + "%'").ToList();
+                        var oldList = conn.Query<string>("SELECT name from PRAGMA_table_info('PelajarToKandungan') WHERE name like '" + buangsubjek + "%'").ToList();
                         if (oldList.Count > 0)
                         {
-                            
+
                             for (int i = 0; i < oldList.Count; i++)
                             {
-                                conn.Execute("ALTER TABLE PelajarToKandungan DROP COLUMN "+ oldList[i]);
+                                conn.Execute("ALTER TABLE PelajarToKandungan DROP COLUMN " + oldList[i]);
                             }
                         }
 
@@ -365,13 +383,13 @@ namespace qrStudent.Pages.UpdateStudent
 
         private void CheckBox_Checked(object sender, RoutedEventArgs e)
         {
-            kKelas.Visibility = Visibility.Visible;
+
             kSubjek.Visibility = Visibility.Visible;
             kSubjekData.Visibility = Visibility.Visible;
         }
         private void CheckBox_Unchecked(object sender, RoutedEventArgs e)
         {
-            kKelas.Visibility = Visibility.Collapsed;
+
             kSubjek.Visibility = Visibility.Collapsed;
             kSubjekData.Visibility = Visibility.Collapsed;
         }
@@ -389,19 +407,20 @@ namespace qrStudent.Pages.UpdateStudent
                 Tema.Cell("A1").Value = "Index Tema";
                 Tema.Cell("B1").Value = "Tajuk Tema";
 
-                var Bidang=wbook.Worksheets.Add("Bidang");
+                var Bidang = wbook.Worksheets.Add("Bidang");
                 Bidang.Cell("A1").Value = "Index Tema";
                 Bidang.Cell("B1").Value = "Index Bidang";
                 Bidang.Cell("C1").Value = "Tajuk Bidang";
 
-                var Kandungan=wbook.Worksheets.Add("Kandungan");
+                var Kandungan = wbook.Worksheets.Add("Kandungan");
                 Kandungan.Cell("A1").Value = "Index Bidang";
                 Kandungan.Cell("B1").Value = "Index Kandungan";
                 Kandungan.Cell("C1").Value = "Tajuk Kandungan";
 
                 var Sp = wbook.Worksheets.Add("Standard Pembelajaran");
-                Sp.Cell("A1").Value = "Index Kandungan";
-                Sp.Cell("B1").Value = "Index Standard Pembelajaran";
+                Sp.Cell("A1").Value = "Index Bidang";
+                Sp.Cell("B1").Value = "Index Kandungan";
+                Sp.Cell("C1").Value = "Index Standard Pembelajaran";
 
                 wbook.SaveAs(dlg.ResultPath + "/TemplateDataSubjek.xlsx");
                 MessageBox.Show("Template berjaya dibuat di:" + Environment.NewLine + dlg.ResultPath + "\\TemplateDataSubjek.xlsx", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -410,14 +429,14 @@ namespace qrStudent.Pages.UpdateStudent
 
         private void UploadDataSubjek_Click(object sender, RoutedEventArgs e)
         {
-            if (MessageBox.Show("Upload Data baru bagi " + " Subjek " + selectMatapelajaran1.SelectedItem.ToString() + selectTingkatan1.SelectedItem.ToString()  + "?" + Environment.NewLine +
+            if (MessageBox.Show("Upload Data baru bagi " + " Subjek " + selectMatapelajaran1.SelectedItem.ToString() + " " + selectTingkatan1.SelectedItem.ToString() + "?" + Environment.NewLine +
                "*Record lama subjek bagi tingkatan ini akan dihapsukan!", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
             {
                 // Close the window  
 
                 OpenFileDialog openFileDialog = new OpenFileDialog();
                 openFileDialog.Filter = "Excel Files|*.xlsx;";
-                List<TemaModel> tema = new List<TemaModel>();
+                List<TemaModel> data = new List<TemaModel>();
                 if (openFileDialog.ShowDialog() == true)
                 {
                     try
@@ -428,15 +447,15 @@ namespace qrStudent.Pages.UpdateStudent
                         foreach (var row1 in rows1)
                         {
 
-                           TemaModel Tema = new TemaModel {Index = int.Parse(row1.Cell(1).Value.ToString()),Desc= row1.Cell(2).Value.ToString() };
+                            TemaModel Tema = new TemaModel { Index = int.Parse(row1.Cell(1).Value.ToString()), Desc = row1.Cell(2).Value.ToString() };
                             var Worksheet2 = workbook.Worksheet(2);
                             var rows2 = Worksheet2.RangeUsed().RowsUsed().Skip(1); // Skip header row
                             foreach (var row2 in rows2)
                             {
-                                if (int.Parse( row2.Cell(1).Value.ToString())== int.Parse(row1.Cell(1).Value.ToString()))
+                                if (int.Parse(row2.Cell(1).Value.ToString()) == int.Parse(row1.Cell(1).Value.ToString()))
                                 {
                                     var Bidang = new BidangModel { Index = int.Parse(row2.Cell(2).Value.ToString()), Desc = row2.Cell(3).Value.ToString() };
-                                   
+
 
                                     var Worksheet3 = workbook.Worksheet(3);
                                     var rows3 = Worksheet3.RangeUsed().RowsUsed().Skip(1); // Skip header row
@@ -444,15 +463,15 @@ namespace qrStudent.Pages.UpdateStudent
                                     {
                                         if (int.Parse(row3.Cell(1).Value.ToString()) == int.Parse(row2.Cell(2).Value.ToString()))
                                         {
-                                            var kandungan=new KandunganModel {  Index = int.Parse(row3.Cell(2).Value.ToString()), Desc = row3.Cell(3).Value.ToString() };
+                                            var kandungan = new KandunganModel { Index = int.Parse(row3.Cell(2).Value.ToString()), Desc = row3.Cell(3).Value.ToString() };
 
                                             var Worksheet4 = workbook.Worksheet(4);
                                             var rows4 = Worksheet4.RangeUsed().RowsUsed().Skip(1); // Skip header row
                                             foreach (var row4 in rows4)
                                             {
-                                                if (int.Parse(row4.Cell(1).Value.ToString()) == int.Parse(row3.Cell(2).Value.ToString()))
+                                                if (int.Parse(row4.Cell(1).Value.ToString()) == int.Parse(row2.Cell(2).Value.ToString()) && int.Parse(row4.Cell(2).Value.ToString()) == int.Parse(row3.Cell(2).Value.ToString()))
                                                 {
-                                                    kandungan.Standard.Add(int.Parse(row4.Cell(2).Value.ToString()));
+                                                    kandungan.Standard.Add(int.Parse(row4.Cell(3).Value.ToString()));
                                                 }
                                             }
 
@@ -464,29 +483,44 @@ namespace qrStudent.Pages.UpdateStudent
                                 }
                             }
 
-                            tema.Add(Tema);
+                            data.Add(Tema);
 
                         }
                         using (var conn = new SQLiteConnection(@"Data Source= qrStudentDB.db;Version=3;"))
                         {
-                            //var oldList = conn.Query<long>("select Id FROM SenaraiPelajar where  Tingkatan=@tingkatan and Kelas=@kelas COLLATE NOCASE", new { tingkatan = selectTingkatan.SelectedItem.ToString()!.Split(" ")[1], kelas = selectKelas.SelectedItem.ToString()! }).ToList();
-                            //if (oldList.Count > 0)
-                            //{
-                            //    conn.Execute("delete from SenaraiPelajar where  Tingkatan=@tingkatan and Kelas=@kelas COLLATE NOCASE", new { tingkatan = selectTingkatan.SelectedItem.ToString()!.Split(" ")[1], kelas = selectKelas.SelectedItem.ToString()! });
-                            //    for (int i = 0; i < oldList.Count; i++)
-                            //    {
-                            //        conn.Execute("delete from PelajarToKandungan where IdPelajar=@IdPelajar", new { IdPelajar = oldList[i] });
-                            //    }
-                            //}
+                            conn.Execute("""
+                                            delete from KandunganTema where Tingkatan=@Tingkatan and Matapelajaran=@Matapelajaran;
+                                            delete from KandunganBidang where Tingkatan=@Tingkatan and Matapelajaran=@Matapelajaran;
+                                            delete from KandunganStandard where Tingkatan=@Tingkatan and Matapelajaran=@Matapelajaran;
+                                            delete from KandunganData where Tingkatan=@Tingkatan and Matapelajaran=@Matapelajaran;
+                                            """, new { Tingkatan = selectTingkatan1.SelectedItem.ToString()!.Split(" ")[1], Matapelajaran = selectMatapelajaran1.SelectedItem.ToString() });
+                            foreach (var tema in data)
+                            {
+                                conn.Execute("insert into KandunganTema (Tingkatan,Matapelajaran,[Index],[Desc]) Values (@Tingkatan,@Matapelajaran,@Index,@Desc)", new { Tingkatan = selectTingkatan1.SelectedItem.ToString()!.Split(" ")[1], Matapelajaran = selectMatapelajaran1.SelectedItem.ToString(), tema.Index, tema.Desc });
 
-                            //var sql = "";
-                            //foreach (var row in students)
-                            //{
-                            //    sql += "INSERT INTO SenaraiPelajar (Nama,NoPendaftaran,Tingkatan,Kelas) VALUES('" + row.Nama + "','" + row.NoPendaftaran + "','" + row.Tingkatan + "','" + row.Kelas + "'); SELECT last_insert_rowid()";
-                            //    var dat = conn.QuerySingle<string>(sql);
-                            //    conn.Execute("insert into PelajarToKandungan (IdPelajar) values(" + dat + ")");
+                                foreach (var bidang in tema.bidangModels)
+                                {
+                                    conn.Execute("insert into KandunganBidang (Tingkatan,Matapelajaran,[Index],[Desc],Tema) Values (@Tingkatan,@Matapelajaran,@Index,@Desc,@Tema)", new { Tingkatan = selectTingkatan1.SelectedItem.ToString()!.Split(" ")[1], Matapelajaran = selectMatapelajaran1.SelectedItem.ToString(), bidang.Index, bidang.Desc, Tema = tema.Index });
+                                    foreach (var kandungan in bidang.kandunganModels)
+                                    {
+                                        conn.Execute("insert into KandunganStandard (Tingkatan,Matapelajaran,[Index],[Desc],Tema,Bidang) Values (@Tingkatan,@Matapelajaran,@Index,@Desc,@Tema,@Bidang)", new { Tingkatan = selectTingkatan1.SelectedItem.ToString()!.Split(" ")[1], Matapelajaran = selectMatapelajaran1.SelectedItem.ToString(), kandungan.Index, kandungan.Desc, Tema = tema.Index, Bidang = bidang.Index });
+                                        if (kandungan.Standard.Count > 0)
+                                        {
+                                            foreach (var standard in kandungan.Standard)
+                                            {
+                                                conn.Execute("insert into KandunganData (Tingkatan,Matapelajaran,StandardPembelajaran,Tema,Bidang,Kandungan) Values (@Tingkatan,@Matapelajaran,@Index,@Tema,@Bidang,@Kandungan)", new { Tingkatan = selectTingkatan1.SelectedItem.ToString()!.Split(" ")[1], Matapelajaran = selectMatapelajaran1.SelectedItem.ToString(), Index = standard, Tema = tema.Index, Bidang = bidang.Index, Kandungan = kandungan.Index });
+                                            }
+                                        }
+                                        else
+                                        {
+                                            conn.Execute("insert into KandunganData (Tingkatan,Matapelajaran,StandardPembelajaran,Tema,Bidang,Kandungan) Values (@Tingkatan,@Matapelajaran,null,@Tema,@Bidang,@Kandungan)", new { Tingkatan = selectTingkatan1.SelectedItem.ToString()!.Split(" ")[1], Matapelajaran = selectMatapelajaran1.SelectedItem.ToString(), Tema = tema.Index, Bidang = bidang.Index, Kandungan = kandungan.Index });
+                                        }
 
-                            //}
+                                    }
+                                }
+                            }
+
+
                         }
                         MessageBox.Show("Upload berjaya", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                     }

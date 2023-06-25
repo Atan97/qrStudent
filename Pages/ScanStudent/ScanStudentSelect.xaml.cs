@@ -124,8 +124,8 @@ namespace qrStudent.Pages.ScanStudent
 
                     var sql = "SELECT count(Kelas) FROM SenaraiPelajar where Tingkatan=@tingkatan and Kelas=@kelas COLLATE NOCASE";
                     var dat = conn.QuerySingleOrDefault<int>(sql, new { tingkatan = selectTingkatan.SelectedItem.ToString()!.Split(" ")[1], kelas = selectKelas.SelectedItem.ToString()! });
-                    var getSp = selectSpembelajaran.SelectedIndex > -1 ? "_" + selectSpembelajaran.SelectedItem.ToString() : "";
-                    var columnName = selectMatapelajaran.SelectedItem.ToString() + "_" + selectTingkatan.SelectedItem.ToString()!.Split(" ")[1] + "_" + selectTema.SelectedItem.ToString()!.Split(")")[0] + "_" + selectBidang.SelectedItem.ToString()!.Split(")")[0] + "_" + selectStandard.SelectedItem.ToString()!.Split(")")[0] + getSp;
+                    var getSp = selectSpembelajaran.SelectedIndex > -1 ? "$" + selectSpembelajaran.SelectedItem.ToString() : "";
+                    var columnName = selectMatapelajaran.SelectedItem.ToString() + "$" + selectTingkatan.SelectedItem.ToString()!.Split(" ")[1] + "$" + selectTema.SelectedItem.ToString()!.Split(")")[0] + "$" + selectBidang.SelectedItem.ToString()!.Split(")")[0] + "$" + selectStandard.SelectedItem.ToString()!.Split(")")[0] + getSp;
                     if (dat > 0)
                     {
                         var chkExistColumn = conn.QuerySingleOrDefault<int>("SELECT count(name) from PRAGMA_table_info('PelajarToKandungan') WHERE name=@name", new { name = columnName });
@@ -145,7 +145,7 @@ namespace qrStudent.Pages.ScanStudent
 
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
                 throw;
