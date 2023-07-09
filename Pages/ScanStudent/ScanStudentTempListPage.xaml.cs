@@ -1,12 +1,8 @@
 ﻿using ClosedXML.Excel;
 using Dapper;
-using DocumentFormat.OpenXml.Drawing.Charts;
-using DocumentFormat.OpenXml.Office2010.Excel;
-using qrStudent.Functions;
-using qrStudent.Pages.GenerateExcel;
+using qrStudent.Models;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data.SQLite;
 using System.Linq;
 using System.Text;
@@ -24,38 +20,36 @@ using System.Windows.Shapes;
 namespace qrStudent.Pages.ScanStudent
 {
     /// <summary>
-    /// Interaction logic for ScanStudentListPage.xaml
+    /// Interaction logic for ScanStudentTempListPage.xaml
     /// </summary>
-    public partial class ScanStudentListPage : Page
+    public partial class ScanStudentTempListPage : Page
     {
-        static string kodKelas = "";
         static string NamaKelas = "";
         static string Tingkatan = "";
-        public ScanStudentListPage(ScanStudentModel e)
+        static string Subjek = "";
+        static string Tajuk = "";
+        public ScanStudentTempListPage(StudentModelTemp temp)
         {
             InitializeComponent();
-            studentList(e);
-            kodKelas = e.kodKelas;
-            NamaKelas = e.Kelas;
-            Tingkatan = e.kodKelas.Split('$')[1];
+            NamaKelas = temp.Kelas;
+            Tingkatan=temp.Tingkatan;
+            Subjek=temp.Subjek == "Sila Pilih" ? "" : temp.Subjek; ;
+            Tajuk = temp.Tajuk;
+            studentList(temp);
             createNamaSubjekFull();
-
-
-
         }
-
-        private void studentList(ScanStudentModel data)
+        private void studentList(StudentModelTemp data)
         {
             StudentListGrid.Items.Clear();
             using (var conn = new SQLiteConnection(@"Data Source= qrStudentDB.db;Version=3;"))
             {
-                var sql = "SELECT a.Id, a.Nama,b." + data.kodKelas + " Siap FROM SenaraiPelajar a LEFT JOIN PelajarToKandungan b on a.Id=b.IdPelajar where a.Tingkatan=@tingkatan and a.Kelas=@kelas COLLATE NOCASE";
+                var sql = "SELECT a.Id, a.Nama FROM SenaraiPelajar a where a.Tingkatan=@tingkatan and a.Kelas=@kelas COLLATE NOCASE";
                 List<DisplayStudentModel> studList = new();
-                var dat = conn.Query<ScanStudentModel>(sql, new { tingkatan = data.kodKelas.Split('$')[1], kelas = data.Kelas }).ToList();
+                var dat = conn.Query<ScanStudentModel>(sql, new { tingkatan = data.Tingkatan, kelas = data.Kelas }).ToList();
                 for (int i = 0; i < dat.Count; i++)
                 {
                     ScanStudentModel? row = dat[i];
-                    DisplayStudentModel stud = new DisplayStudentModel { Nama = row.Nama, No = i + 1, Siap = row.Siap, Id = row.Id };
+                    DisplayStudentModel stud = new DisplayStudentModel { Nama = row.Nama, No = i + 1, Siap = false, Id = row.Id };
                     studList.Add(stud);
                     //StudentListGrid.Items.Add(stud);
                 }
@@ -78,27 +72,17 @@ namespace qrStudent.Pages.ScanStudent
             //{
             //    // Show message box here...
             //}
-            int stat = 0;
-            if (checkedData)
-            {
-                stat = 1;
-            }
-            PelajarToKandunganData(stat, data.Id);
+            //int stat = 0;
+            //if (checkedData)
+            //{
+            //    stat = 1;
+            //}
+            //PelajarToKandunganData(stat, data.Id);
             e.Handled = true;
         }
         private void BackToSelectBtn_Click(object sender, RoutedEventArgs e)
         {
             this.NavigationService.Navigate(new Uri("Pages/ScanStudent/ScanStudentSelect.xaml", UriKind.Relative));
-        }
-        private void PelajarToKandunganData(int stat, int IdPelajar)
-        {
-            using (var conn = new SQLiteConnection(@"Data Source= qrStudentDB.db;Version=3;"))
-            {
-                var sql = "update PelajarToKandungan set " + kodKelas + " = @stat where IdPelajar=@IdPelajar";
-                List<DisplayStudentModel> studList = new();
-                conn.Execute(sql, new { stat, IdPelajar });
-
-            }
         }
         private void OnKeyDownHandler(object sender, KeyEventArgs e)
         {
@@ -112,7 +96,7 @@ namespace qrStudent.Pages.ScanStudent
                     {
                         if (data.Siap == false)
                         {
-                            PelajarToKandunganData(1, data.Id);
+                           // PelajarToKandunganData(1, data.Id);
                             data.Siap = true;
                         }
 
@@ -125,50 +109,13 @@ namespace qrStudent.Pages.ScanStudent
         }
         private void createNamaSubjekFull()
         {
-            var kodKelasSplit = kodKelas.Split('$');
-            var subjek = kodKelasSplit[0].Replace("_", " ");
-            var tingkatan = kodKelasSplit[1];
-            var tema = kodKelasSplit[2];
-            var bidang = kodKelasSplit[3];
-            var kandungan = kodKelasSplit[4];
-            string? sp;
-            if (kodKelasSplit.Length == 6)
+            var Su = "";
+            if (Subjek.Trim()!="")
             {
-                sp = bidang+"."+ kandungan+"."+ kodKelasSplit[5];
+                Su = $"Subjek: {Subjek}{Environment.NewLine}";
             }
-            else
-            {
-                sp = bidang + "." + kandungan + ".0";
-            }
-            getTajukFull(subjek, tingkatan, tema, bidang, kandungan, out string? temaFull, out string? bidangFull, out string? kandunganFull);
 
-            tajukDat.Content = "Tingkatan " + tingkatan + " Kelas " + NamaKelas + Environment.NewLine
-                 + "Subjek: " + subjek + Environment.NewLine
-                 + "Tema: " + tema + ") " + temaFull + Environment.NewLine
-                 + "Bidang: " + bidang + ") " + bidangFull + Environment.NewLine
-                 + "Kandungan: " + kandungan + ") " + kandunganFull + Environment.NewLine
-                 + "Standard Pembelajaran: " + sp;
-        }
-
-        private static void getTajukFull(string subjek, string tingkatan, string tema, string bidang, string kandungan, out string temaFull, out string bidangFull, out string kandunganFull)
-        {
-            using (var conn = new SQLiteConnection(@"Data Source= qrStudentDB.db;Version=3;"))
-            {
-
-
-                temaFull = conn.QuerySingleOrDefault<string>("""
-                    select [Desc] from KandunganTema where [Index]=@index and Matapelajaran=@subjek and Tingkatan=@tingkatan
-                    """, new { index = tema, subjek, tingkatan });
-                bidangFull = conn.QuerySingleOrDefault<string>("""
-                    select [Desc] from KandunganBidang where [Index]=@index and Matapelajaran=@subjek and Tingkatan=@tingkatan and Tema=@tema
-                    """, new { index = bidang, subjek, tingkatan, tema });
-                kandunganFull = conn.QuerySingleOrDefault<string>("""
-                    select [Desc] from KandunganStandard where [Index]=@index and Matapelajaran=@subjek and Tingkatan=@tingkatan and Tema=@tema and Bidang=@bidang
-                    """, new { index = kandungan, subjek, tingkatan, tema, bidang });
-
-
-
-            }
+            tajukDat.Content = $"Tingkatan {Tingkatan} Kelas {NamaKelas}{Environment.NewLine}{Su}Tajuk: {Tajuk}";
         }
 
         private void DownloadExcel_Click(object sender, RoutedEventArgs e)
@@ -179,54 +126,39 @@ namespace qrStudent.Pages.ScanStudent
             dlg.InputPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             if (dlg.ShowDialog() == true)
             {
-                var kodKelasSplit = kodKelas.Split('$');
-                var subjek = kodKelasSplit[0].Replace("_", " ");
-                var tingkatan = kodKelasSplit[1];
-                var tema = kodKelasSplit[2];
-                var bidang = kodKelasSplit[3];
-                var kandungan = kodKelasSplit[4];
-                var sp = "";
-                if (kodKelasSplit.Length == 6)
-                {
-                    sp = kodKelasSplit[5];
-                }
-                else
-                {
-                    sp = "0";
-                }
-                getTajukFull(subjek, tingkatan, tema, bidang, kandungan, out string? temaFull, out string? bidangFull, out string? kandunganFull);
-
+                
+               
                 using var wbook = new XLWorkbook();
 
-                var sheet = wbook.Worksheets.Add("Rekod Transit");
+                var sheet = wbook.Worksheets.Add("Rekod");
                 sheet.Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
-                sheet.Cell(1, 1).Value = "REKOD TRANSIT PBD TINGKATAN " + tingkatan;
+               // sheet.Cell(1, 1).Value = "REKOD SEMENTARA TINGKATAN " + Tingkatan;
 
                 sheet.Range(sheet.Cell(1, 1), sheet.Cell(1, 3)).Merge();
                 sheet.Cell(3, 1).Value = "NO";
                 sheet.Cell(3, 1).Style.Alignment.SetVertical(XLAlignmentVerticalValues.Center);
                 sheet.Range(sheet.Cell(3, 1), sheet.Cell(7, 1)).Merge();
-                sheet.Cell(3, 2).Value = "TEMA:";
+                sheet.Cell(3, 2).Value = "TINGKATAN:";
                 sheet.Cell(3, 2).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
-                sheet.Cell(4, 2).Value = "BIDANG PEMBELAJARAN:";
+                sheet.Cell(4, 2).Value = "KELAS:";
                 sheet.Cell(4, 2).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
-                sheet.Cell(5, 2).Value = "STANDARD KANDUNGAN:";
+                sheet.Cell(5, 2).Value = "SUBJEK:";
                 sheet.Cell(5, 2).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
-                sheet.Cell(6, 2).Value = "STANDARD PEMBELAJARAN:";
+                sheet.Cell(6, 2).Value = "TAJUK:";
                 sheet.Cell(6, 2).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
                 sheet.Cell(7, 2).Value = "TARIKH:";
                 sheet.Cell(7, 2).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
                 sheet.Cell(8, 2).Value = "NAMA";
                 sheet.Cell(8, 2).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
-                sheet.Cell(3, 3).Value = tema + " " + temaFull;
+                sheet.Cell(3, 3).Value = Tingkatan;
                 sheet.Cell(3, 3).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
 
-                sheet.Cell(4, 3).Value = bidang + " " + bidangFull;
+                sheet.Cell(4, 3).Value = NamaKelas;
                 sheet.Cell(4, 3).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
 
-                sheet.Cell(5, 3).Value = kandungan + " " + kandunganFull;
+                sheet.Cell(5, 3).Value = Subjek;
                 sheet.Cell(5, 3).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
-                sheet.Cell(6, 3).Value = bidang + "." + kandungan + "." + sp;
+                sheet.Cell(6, 3).Value = Tajuk;
                 sheet.Cell(6, 3).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
 
 
@@ -248,12 +180,10 @@ namespace qrStudent.Pages.ScanStudent
 
 
 
-                var filename = $"REKOD TRANSIT PBD {subjek} TINGKATAN {tingkatan} {NamaKelas} Standard {bidang + "." + kandungan + "." + sp}.xlsx";
+                var filename = $"REKOD {Tajuk} TINGKATAN {Tingkatan} {NamaKelas}.xlsx";
                 wbook.SaveAs($"{dlg.ResultPath}/{filename}");
                 MessageBox.Show($"Rekod berjaya disimpan di:{Environment.NewLine}{dlg.ResultPath}\\{filename}", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
     }
-
-
 }

@@ -313,7 +313,7 @@ namespace qrStudent.Pages.GenerateExcel
 
                     var filename = $"REKOD TRANSIT PBD {subjek} TINGKATAN {tingkatan} {kelas}.xlsx";
                     wbook.SaveAs(dlg.ResultPath + "/"+ filename);
-                    MessageBox.Show($"Template berjaya dibuat di:{Environment.NewLine}{dlg.ResultPath}\\{filename}", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show($"Rekod berjaya disimpan di:{Environment.NewLine}{dlg.ResultPath}\\{filename}", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
             }
         }

@@ -34,6 +34,14 @@ namespace qrStudent.Models
         public List<int> Standard { get; set; }= new List<int>();
 
     }
+
+    public class StudentModelTemp
+    {
+        public string Tingkatan { get; set; } = "";
+        public string Kelas { get; set; } = "";
+        public string Subjek { get; set; } = "";
+        public string Tajuk { get; set; } = "";
+    }
    
 
 }

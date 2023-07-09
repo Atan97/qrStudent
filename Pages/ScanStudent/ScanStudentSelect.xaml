@@ -8,8 +8,8 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="ScanStudentSelect">
 
-    <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
-        <Grid Width="542" Margin="129,133,129,133">
+    <Grid>
+        <Grid Width="542" HorizontalAlignment="Center" VerticalAlignment="Center" Height="230">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="161*"/>
                 <ColumnDefinition Width="110*"/>
@@ -18,17 +18,31 @@
             <ComboBox x:Name="selectTingkatan" VerticalAlignment="Top" Width="178"  Margin="89,5,0,0" HorizontalAlignment="Left" SelectionChanged="selectTingkatan_SelectionChanged" />
             <Label Content="Subjek:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="83" Height="32" Margin="0,44,0,0"/>
             <ComboBox x:Name="selectMatapelajaran" VerticalAlignment="Top" Width="178"   Margin="89,49,0,0" HorizontalAlignment="Left" SelectionChanged="selectMatapelajaran_SelectionChanged"  />
-            <Button Content="Cari" x:Name="CariKelas" HorizontalAlignment="Left" Margin="42,137,0,0" VerticalAlignment="Top" Height="22" Width="96" Click="CariKelas_Click" Grid.Column="1"/>
             <Label Content="Kelas:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="83" Height="32" Margin="275,0,0,0" Grid.ColumnSpan="2"/>
             <ComboBox x:Name="selectKelas" VerticalAlignment="Top" Width="178"  Margin="42,5,0,0" HorizontalAlignment="Left" Grid.Column="1" SelectionChanged="selectKelas_SelectionChanged" />
-            <Label Content="Tema:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="83" Height="32" Margin="275,44,0,0" Grid.ColumnSpan="2"/>
-            <ComboBox x:Name="selectTema" VerticalAlignment="Top" Width="178"  Margin="42,49,0,0" HorizontalAlignment="Left" Grid.Column="1" SelectionChanged="selectTema_SelectionChanged" />
-            <Label Content="Bidang:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="83" Height="32" Margin="0,88,0,0"/>
-            <ComboBox x:Name="selectBidang" VerticalAlignment="Top" Width="178"  Margin="89,93,0,0" HorizontalAlignment="Left" SelectionChanged="selectBidang_SelectionChanged"  />
-            <Label Content="Kandungan:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="83" Height="32" Margin="275,88,0,0" Grid.ColumnSpan="2"/>
-            <ComboBox x:Name="selectStandard" VerticalAlignment="Top" Width="178"  Margin="42,93,0,0" HorizontalAlignment="Left" Grid.Column="1" SelectionChanged="selectStandard_SelectionChanged" />
-            <Label Content="Standard&#xD;&#xA;Pembelajaran:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="83" Height="45" Margin="0,120,0,0"/>
-            <ComboBox x:Name="selectSpembelajaran" VerticalAlignment="Top" Width="178"  Margin="89,137,0,0" HorizontalAlignment="Left"/>
+            <Grid x:Name="mainGrid" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="121" Margin="0,76,0,0" VerticalAlignment="Top" Width="542">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="174*"/>
+                    <ColumnDefinition Width="97*"/>
+                </Grid.ColumnDefinitions>
+                <Button Content="Cari" x:Name="CariKelas" HorizontalAlignment="Left" Margin="16,99,0,0" VerticalAlignment="Top" Height="22" Width="96" Click="CariKelas_Click" Grid.Column="1"/>
+                <Label Content="Tema:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="83" Height="32" Margin="0,10,0,0"/>
+                <ComboBox x:Name="selectTema" VerticalAlignment="Top" Width="178"  Margin="89,15,0,0" HorizontalAlignment="Left" SelectionChanged="selectTema_SelectionChanged" />
+                <Label Content="Bidang:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="83" Height="32" Grid.ColumnSpan="2" Margin="275,10,0,0"/>
+                <ComboBox x:Name="selectBidang" VerticalAlignment="Top" Width="178"  Margin="16,15,0,0" HorizontalAlignment="Left" SelectionChanged="selectBidang_SelectionChanged" Grid.Column="1"  />
+                <Label Content="Kandungan:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="83" Height="32" Margin="0,52,0,0"/>
+                <ComboBox x:Name="selectStandard" VerticalAlignment="Top" Width="178"  Margin="89,57,0,0" HorizontalAlignment="Left" SelectionChanged="selectStandard_SelectionChanged" />
+                <Label Content="Standard&#xA;Pembelajaran:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="83" Height="45" Margin="275,42,0,0" Grid.ColumnSpan="2"/>
+                <ComboBox x:Name="selectSpembelajaran" VerticalAlignment="Top" Width="178"  Margin="16,59,0,0" HorizontalAlignment="Left" Grid.Column="1"/>
+
+            </Grid>
+            <Grid x:Name="tempGrid" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Top" Width="460" Margin="0,86,0,0" Visibility="Collapsed" >
+                <Label Content="Tajuk:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="83" Height="32"/>
+                <TextBox x:Name="TajukName" HorizontalAlignment="Left" Margin="89,5,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="178" Height="22"/>
+                <Button Content="Generate" x:Name="GenerateTableData" HorizontalAlignment="Left" Margin="364,5,0,0" VerticalAlignment="Top" Height="22" Width="96" Click="GenerateTableData_Click"/>
+
+            </Grid>
+            <CheckBox x:Name="TempScantb" Content="Rekod Sementara" HorizontalAlignment="Left" Margin="42,52,0,0" VerticalAlignment="Top" Width="178" Grid.Column="1" Checked="TempScantb_Checked" Unchecked="TempScantb_Checked"/>
 
         </Grid>
 

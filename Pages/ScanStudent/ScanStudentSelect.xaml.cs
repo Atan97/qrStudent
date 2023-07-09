@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using qrStudent.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
@@ -37,6 +38,8 @@ namespace qrStudent.Pages.ScanStudent
             selectTema.IsEnabled = false;
             selectBidang.IsEnabled = false;
             selectSpembelajaran.IsEnabled = false;
+            tempGrid.Visibility = Visibility.Collapsed;
+            mainGrid.Visibility = Visibility.Visible;
 
         }
 
@@ -346,7 +349,36 @@ namespace qrStudent.Pages.ScanStudent
             }
         }
 
+        private void TempScantb_Checked(object sender, RoutedEventArgs e)
+        {
+            if (TempScantb.IsChecked==true)
+            {
+                tempGrid.Visibility = Visibility.Visible;
+                mainGrid.Visibility = Visibility.Collapsed;
+                return;
+            }
+            tempGrid.Visibility = Visibility.Collapsed;
+            mainGrid.Visibility = Visibility.Visible;
+        }
+
+        private void GenerateTableData_Click(object sender, RoutedEventArgs e)
+        {
+            using (var conn = new SQLiteConnection(@"Data Source= qrStudentDB.db;Version=3;"))
+            {
+                var sql = "SELECT count(Kelas) FROM SenaraiPelajar where Tingkatan=@tingkatan and Kelas=@kelas COLLATE NOCASE";
+                var dat = conn.QuerySingleOrDefault<int>(sql, new { tingkatan = selectTingkatan.SelectedItem.ToString()!.Split(" ")[1], kelas = selectKelas.SelectedItem.ToString()! });
+                if (dat > 0)
+                {
 
 
+                    ScanStudentTempListPage ad = new ScanStudentTempListPage(new StudentModelTemp { Kelas = selectKelas.SelectedItem.ToString()!, Subjek = selectMatapelajaran.SelectedItem.ToString()!, Tajuk = TajukName.Text, Tingkatan = selectTingkatan.SelectedItem.ToString()!.Split(" ")[1] });
+                    this.NavigationService.Navigate(ad);
+                }
+                else
+                {
+                    MessageBox.Show("Tiada maklumat pelajar bagi " + selectTingkatan.SelectedItem.ToString() + " Kelas " + selectKelas.SelectedItem.ToString() + "!", "Empty File.", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                }
+            }
+        }
     }
 }
